@@ -1,10 +1,10 @@
-package gopher_anim
+package hero_anim
 
 import (
 	"encoding/csv"
 	"encoding/json"
 	// "fmt"
-	"github.com/JChouCode/naruto-go/gopher"
+	"github.com/JChouCode/naruto-go/hero"
 	// "github.com/JChouCode/naruto-go/projectile"
 	"github.com/faiface/pixel"
 	"image"
@@ -154,7 +154,7 @@ const (
 var rate = 1.0 / 10
 var counter = 0.0
 
-type GopherAnim struct {
+type HeroAnim struct {
 	sprite *pixel.Sprite
 	frame  pixel.Rect
 	state  move_state
@@ -165,16 +165,16 @@ type GopherAnim struct {
 	dir   float64
 }
 
-// Initialize GopherAnim
-func New(imgPath string, jsonPath string) GopherAnim {
+// Initialize HeroAnim
+func New(imgPath string, jsonPath string) HeroAnim {
 	sheet, anims, err := LoadAnimationJson(imgPath, jsonPath)
 	if err != nil {
 		panic(err)
 	}
-	return GopherAnim{pixel.NewSprite(nil, pixel.Rect{}), pixel.Rect{}, idle, sheet, anims, false, 0}
+	return HeroAnim{pixel.NewSprite(nil, pixel.Rect{}), pixel.Rect{}, idle, sheet, anims, false, 0}
 }
 
-func (ga *GopherAnim) Update(g gopher.Gopher, dt float64) {
+func (ga *HeroAnim) Update(g hero.Hero, dt float64) {
 	counter += dt
 
 	var tempState move_state
@@ -213,9 +213,9 @@ func (ga *GopherAnim) Update(g gopher.Gopher, dt float64) {
 		// fmt.Print("jump")
 		i := 0
 		switch {
-		case g.GetVel().Y < gopher.GetJumpY()*1/3:
+		case g.GetVel().Y < hero.GetJumpY()*1/3:
 			i++
-		case g.GetVel().Y < gopher.GetJumpY()*2/3:
+		case g.GetVel().Y < hero.GetJumpY()*2/3:
 			i++
 		}
 		ga.frame = ga.anims["jump"][i]
@@ -234,7 +234,7 @@ func (ga *GopherAnim) Update(g gopher.Gopher, dt float64) {
 	ga.dir = g.GetDir()
 }
 
-func (ga *GopherAnim) Draw(t pixel.Target, g gopher.Gopher) {
+func (ga *HeroAnim) Draw(t pixel.Target, g hero.Hero) {
 	// fmt.Print(ga.frame)
 	ga.sprite.Set(ga.sheet, ga.frame)
 	ga.sprite.Draw(t, pixel.IM.
@@ -247,18 +247,18 @@ func (ga *GopherAnim) Draw(t pixel.Target, g gopher.Gopher) {
 	)
 }
 
-func (ga *GopherAnim) GetSheet() pixel.Picture {
+func (ga *HeroAnim) GetSheet() pixel.Picture {
 	return ga.sheet
 }
 
-func (ga *GopherAnim) GetFrame() pixel.Rect {
+func (ga *HeroAnim) GetFrame() pixel.Rect {
 	return ga.frame
 }
 
-func (ga *GopherAnim) Throw() {
+func (ga *HeroAnim) Throw() {
 	ga.throw = true
 }
 
-func (ga *GopherAnim) IsThrow() bool {
+func (ga *HeroAnim) IsThrow() bool {
 	return ga.throw
 }

@@ -1,4 +1,4 @@
-package gopher
+package hero
 
 import (
 	"github.com/JChouCode/naruto-go/platform"
@@ -16,7 +16,7 @@ var (
 	jumpY   float64 = 500
 )
 
-type Gopher struct {
+type Hero struct {
 	body   pixel.Rect
 	vel    pixel.Vec
 	jump   bool
@@ -24,19 +24,19 @@ type Gopher struct {
 }
 
 // Initialize Gopher
-func New() Gopher {
+func New() Hero {
 	// return Gopher{pixel.R(-6, -7, 6, 7), pixel.V(0, 0), false}
-	return Gopher{pixel.R(1, 1, 41, 61), pixel.V(0, 0), false, false}
+	return Hero{pixel.R(1, 1, 41, 61), pixel.V(0, 0), false, false}
 }
 
 // Gopher Jump
-func (g *Gopher) Jump() {
+func (g *Hero) Jump() {
 	g.vel.Y += jumpY
 	g.body = g.body.Moved(pixel.V(0, g.vel.Y))
 	g.jump = true
 }
 
-func (g *Gopher) Update(ctrl pixel.Vec, dt float64, platforms []platform.Platform) {
+func (g *Hero) Update(ctrl pixel.Vec, dt float64, platforms []platform.Platform) {
 	if ctrl.Y < 0 {
 		g.crouch = true
 	} else {
@@ -103,27 +103,27 @@ func (g *Gopher) Update(ctrl pixel.Vec, dt float64, platforms []platform.Platfor
 	}
 }
 
-func (g Gopher) IsCollide(p platform.Platform) bool {
+func (g Hero) IsCollide(p platform.Platform) bool {
 	return g.body.Max.X-g.body.W()/2 <= p.GetRect().Max.X && g.body.Min.X+g.body.W()/2 >= p.GetRect().Min.X && math.Abs(g.body.Min.Y-p.GetRect().Max.Y) <= 7
 }
 
-func (g *Gopher) IsJump() bool {
+func (g *Hero) IsJump() bool {
 	return g.jump
 }
 
-func (g *Gopher) IsCrouch() bool {
+func (g *Hero) IsCrouch() bool {
 	return g.crouch
 }
 
-func (g *Gopher) GetBody() pixel.Rect {
+func (g *Hero) GetBody() pixel.Rect {
 	return g.body
 }
 
-func (g *Gopher) GetVel() pixel.Vec {
+func (g *Hero) GetVel() pixel.Vec {
 	return g.vel
 }
 
-func (g *Gopher) GetDir() float64 {
+func (g *Hero) GetDir() float64 {
 	switch {
 	case g.vel.X > 0:
 		return 1

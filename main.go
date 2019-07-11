@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/JChouCode/naruto-go/gopher"
-	"github.com/JChouCode/naruto-go/gopher_anim"
+	"github.com/JChouCode/naruto-go/hero"
+	"github.com/JChouCode/naruto-go/hero_anim"
 	"github.com/JChouCode/naruto-go/platform"
 	"github.com/JChouCode/naruto-go/projectile"
 	"github.com/faiface/pixel"
@@ -40,8 +40,8 @@ func run() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	gopher := gopher.New()
-	anim := gopher_anim.New("neji.png", "neji.json")
+	hero := hero.New()
+	anim := hero_anim.New("neji.png", "neji.json")
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 	basicTxt := text.New(pixel.V(200, 400), atlas)
@@ -82,14 +82,14 @@ func run() {
 		}
 		if win.JustPressed(pixelgl.KeyA) {
 			anim.Throw()
-			projectiles = append(projectiles, projectile.New(gopher, 21, 9))
+			projectiles = append(projectiles, projectile.New(hero, 21, 9))
 		}
 		if win.JustPressed(pixelgl.KeyQ) {
 			os.Exit(1)
 		}
 
-		gopher.Update(ctrl, dt, platforms)
-		anim.Update(gopher, dt)
+		hero.Update(ctrl, dt, platforms)
+		anim.Update(hero, dt)
 		for index := range projectiles {
 			(&projectiles[index]).Update(dt)
 		}
@@ -110,7 +110,7 @@ func run() {
 			p.Draw(imd)
 		}
 
-		anim.Draw(imd, gopher)
+		anim.Draw(imd, hero)
 		for _, p := range projectiles {
 			p.Draw(imd2)
 		}

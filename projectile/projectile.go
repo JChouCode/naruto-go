@@ -2,8 +2,8 @@ package projectile
 
 import (
 	"fmt"
-	"github.com/JChouCode/naruto-go/gopher"
-	"github.com/JChouCode/naruto-go/gopher_anim"
+	"github.com/JChouCode/naruto-go/hero"
+	"github.com/JChouCode/naruto-go/hero_anim"
 	"github.com/faiface/pixel"
 	_ "image/png"
 	"math"
@@ -29,14 +29,14 @@ type Projectile struct {
 }
 
 func init() {
-	sheet, anims, err = gopher_anim.LoadAnimationJson("projectile.png", "projectile.json")
+	sheet, anims, err = hero_anim.LoadAnimationJson("projectile.png", "projectile.json")
 	fmt.Print(anims)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func New(g gopher.Gopher, height float64, width float64) Projectile {
+func New(g hero.Hero, height float64, width float64) Projectile {
 	gBody := g.GetBody()
 	startPos := gBody.Center().Add(pixel.V(gBody.W()/2, -height/2))
 	return Projectile{pixel.NewSprite(nil, pixel.Rect{}), pixel.Rect{}, sheet, anims, g.GetDir(), pixel.V(velX, 0), pixel.R(startPos.X, startPos.Y, startPos.X+width, startPos.Y+height)}
